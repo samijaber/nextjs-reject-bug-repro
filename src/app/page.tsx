@@ -1,7 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default async function Home() {
+  const data = await fetchData();
+  console.log(data);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -92,4 +95,22 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+const returnPromiseRejectionError = () => {
+  return new Promise((resolve, reject) => {
+    reject(new Error("Test error"));
+  });
+};
+
+const returnPromiseRejectionNonError = () => {
+  return new Promise((resolve, reject) => {
+    reject({ message: "Test error" });
+  });
+};
+
+export async function fetchData() {
+  // compare the difference between the error messages of the two promises
+  // return returnPromiseRejectionError();
+  return returnPromiseRejectionNonError();
 }
